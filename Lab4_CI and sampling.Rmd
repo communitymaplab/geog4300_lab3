@@ -1,0 +1,96 @@
+---
+title: 'Geog 4/6300: Lab 4'
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Confidence intervals and sampling
+
+**Due:** Wednesday, 10/24
+
+**Value:** 30 points
+
+**Overview:**
+
+This lab covers  two main topics: basic spatial statistics and probability distributions. We will be using individual level “microdata” from the Current Population Survey (CPS). It is designed as an ongoing (collected monthly) set of data on financial and demographic characteristics. One main use of the CPS is to calculate national levels of food insecurity. Each December, a food security supplement is added to the regular survey, and data from the supplement is included here.
+
+To load these data, load the csv file included in the Github repo:
+
+```{r message=FALSE}
+cps_data<-read_csv("IPUMS_CPS_FoodSec.csv")
+```
+
+This contains a csv file with microdata from the CPS that is de-identified and publically available through the Minnesota Population Center (https://cps.ipums.org/cps/index.shtml). There is also a codebook that is part of the Github repo (IPUMS_CPS_CODEBOOK.pdf) describing each of those variables.
+
+###Part 1: Calculating national food insecurity###
+For this lab, you will be using the FSSTATUS variable, which describes the food security of respondents. While food security status is often grouped into “low” and “very low” food security, these two are often just combined to a single measure: food insecure. The codebook (see the link above) lists the values assocated with missing or "Not in universe" (NIU) records. For the purposes of this lab, an additional column called FSSTATUS_cat has been added with text versions of the FSSTATUS classification: food_secure, low_fs, and "verylow_fs".
+
+**Question 1 (4 points)** _Filter out all records in this dataset that have missing or NIU observations for food insecurity. Then use group_by and summarise to calculate the number of individuals grouped in each food security category.  Call this table. Based on these results, calculate the estimated national food insecurity rate (those rated 2 and 3)._
+
+```{r}
+#Code goes here
+```
+
+**Question 2 (3 points)** _Using the formula for confidence intervals for proportions shown in class, calculate a confidence interval for the rate you identified in question 1. Make sure that confidence interval is shown in the knitted document you create. Interpret what that confidence interval tells you._
+
+```{r}
+#Code goes here. 
+```
+
+{Interpretation goes here.}
+
+###Part 2: Analyzing state food insecurity data###
+
+We can also use the "STATE" variable to calculate rates for each state. You can adapt the code from question 1 above to include STATE as a second grouping varirable. 
+
+**Question 3 (5 points)** _Create an estimated food insecurity rate for each state from these data. To do so, you'll need to create counts for each response (food secure, low food security, very low food insecurity), sum the latter two, and divide by the total responses within each state. Call the head of your table when done._
+
+```{r}
+#Code goes here.
+```
+
+
+**Question 4 (4 points)** _Create code that estimates the error term (the standard error * the z score for 95% confidence) for each state. Then write a short summary of your code, explaining the purpose of each function you used._
+
+```{r}
+#Code goes here
+```
+
+{Explanation goes here}
+
+**Question 5 (3 points)** _Create a graph of the confidence intervals from question 4 using ggplot, geom_line, and geom_point as shown in class. Arrange the states along the y axis based on the estimated food insecurity rate._
+
+```{r}
+#Code goes here
+```
+
+**Question 6 (3 points)** _Compare the margin of error (error term) you calculated for Georgia to the national margin of error. How do they differ? Mathematically, why are they different?_
+
+#Explanation goes here.}
+
+**Question 7 (3 points)** _Create a column in your state food insecurity estimates that converts each state's food insecurity rate to a z score based on the whole population. What are the z scores for New Jersey and Mississippi? What do those z scores tell you?_
+
+```{r}
+#Code goes here.
+```
+
+{Explanation goes here.}
+
+###Part 3: Sampling###
+
+A new study is being developed to determine whether new food shelves in the Atlanta metropolitan area are reducing rates of food insecurity. The research question is whether living within a mile of a food pantry lowers food insecurity for households.
+
+**Question 8 (3 points)** _Pick a probabilistic sampling strategy (or combination of strategies) discussed in our text or in lecture that would be appropriate for this research question: random, systemic, stratified, and cluster. Describe how this strategy could be used to create a sample for use in this proposed study._
+
+{Response goes here}
+
+**Question 9 (3 points)** _Health officials would like to do a related survey of household food insecurity with enough responses to allow for margins of error under 2% (with 95% confidence). Assume that the rate is similar to the one you identified for Georgia in question 5.  Use R to compute how big a sample they would need._ 
+
+```{r}
+#Code goes here.
+```
+
