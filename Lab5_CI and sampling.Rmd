@@ -1,5 +1,5 @@
 ---
-title: 'Geog 4/6300: Lab 4'
+title: 'Geog 4/6300: Lab 5'
 output: github_document
 ---
 
@@ -10,18 +10,16 @@ library(tidyverse)
 
 ## Confidence intervals and sampling
 
-**Due:** Wednesday, 10/24
-
-**Value:** 30 points
+**Your name: {Name here}**
 
 **Overview:**
 
 This lab covers  two main topics: basic spatial statistics and probability distributions. We will be using individual level “microdata” from the Current Population Survey (CPS). It is designed as an ongoing (collected monthly) set of data on financial and demographic characteristics. One main use of the CPS is to calculate national levels of food insecurity. Each December, a food security supplement is added to the regular survey, and data from the supplement is included here.
 
-To load these data, load the csv file included in the Github repo:
+To load these data, load the csv file, which is included in the lab folder:
 
 ```{r message=FALSE}
-cps_data<-read_csv("IPUMS_CPS_FoodSec.csv")
+cps_data<-read_csv("data/IPUMS_CPS_FoodSec.csv")
 ```
 
 This contains a csv file with microdata from the CPS that is de-identified and publically available through the Minnesota Population Center (https://cps.ipums.org/cps/index.shtml). There is also a codebook that is part of the Github repo (IPUMS_CPS_CODEBOOK.pdf) describing each of those variables.
@@ -29,7 +27,7 @@ This contains a csv file with microdata from the CPS that is de-identified and p
 ###Part 1: Calculating national food insecurity###
 For this lab, you will be using the FSSTATUS variable, which describes the food security of respondents. While food security status is often grouped into “low” and “very low” food security, these two are often just combined to a single measure: food insecure. The codebook (see the link above) lists the values assocated with missing or "Not in universe" (NIU) records. For the purposes of this lab, an additional column called FSSTATUS_cat has been added with text versions of the FSSTATUS classification: food_secure, low_fs, and "verylow_fs".
 
-**Question 1 (4 points)** _Filter out all records in this dataset that have missing or NIU observations for food insecurity. Then use group_by and summarise to calculate the number of individuals grouped in each food security category.  Call this table. Based on these results, calculate the estimated national food insecurity rate (those rated 2 and 3)._
+**Question 1 (4 points)** _Filter out all records in this dataset that have missing or NIU observations for food insecurity. Then use group_by and summarise to calculate the number of individuals grouped in each food security category (FSSTATUS).  Call this table. Based on these results, calculate the estimated national food insecurity rate (those rated 2 and 3)._
 
 ```{r}
 #Code goes here
@@ -72,7 +70,7 @@ We can also use the "STATE" variable to calculate rates for each state. You can 
 
 #Explanation goes here.}
 
-**Question 7 (3 points)** _Create a column in your state food insecurity estimates that converts each state's food insecurity rate to a z score based on the whole population. What are the z scores for New Jersey and Mississippi? What do those z scores tell you?_
+**Question 7 (3 points)** _Create a column in your state food insecurity estimates that converts each state's food insecurity rate to a z score based on the whole population. What is the z score for New Jersey? What does that z score tell you?_
 
 ```{r}
 #Code goes here.
@@ -84,7 +82,7 @@ We can also use the "STATE" variable to calculate rates for each state. You can 
 
 A new study is being developed to determine whether new food shelves in the Atlanta metropolitan area are reducing rates of food insecurity. The research question is whether living within a mile of a food pantry lowers food insecurity for households.
 
-**Question 8 (3 points)** _Pick a probabilistic sampling strategy (or combination of strategies) discussed in our text or in lecture that would be appropriate for this research question: random, systemic, stratified, and cluster. Describe how this strategy could be used to create a sample for use in this proposed study._
+**Question 8 (2 points)** _Pick a probabilistic sampling strategy (or combination of strategies) discussed in our text or in lecture that would be appropriate for this research question: random, systemic, stratified, and cluster. Describe how this strategy could be used to create a sample for use in this proposed study._
 
 {Response goes here}
 
@@ -93,4 +91,12 @@ A new study is being developed to determine whether new food shelves in the Atla
 ```{r}
 #Code goes here.
 ```
+
+**Extra credit!! (2 points)**
+A geojson file of state boundaries is included in this lab repo. Using the state rate estimates you created for question 3, create a map that shows these rates. You'll have to join your estimates to the state boundaries before you visualize them.
+
+```{r}
+#Code goes here
+```
+
 
