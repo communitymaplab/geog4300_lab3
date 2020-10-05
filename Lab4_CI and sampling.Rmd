@@ -45,7 +45,7 @@ For this lab, you will be using the FSSTATUS variable, which describes the food 
 
 We can also use the "STATE" variable to calculate rates for each state. You can adapt the code from question 1 above to include STATE as a second grouping varirable. 
 
-**Question 3 (5 points)** _Create an estimated food insecurity rate for each state from these data. To do so, you'll need to create counts for each response (food secure, low food security, very low food insecurity), sum the latter two, and divide by the total responses within each state. Call the head of your table when done using kable._
+**Question 3 (5 points)** _Create an estimated food insecurity rate for each state from these data. To do so, you'll need to create counts for each response (food secure, low food security, very low food insecurity), and transform the data so all three are in the same row (rather than spread out the long way across three rows). You can then sum the latter two variables and divide by the total responses within each state. Call the head of your table when done using kable._
 
 ```{r}
 #Code goes here.
