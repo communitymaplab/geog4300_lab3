@@ -82,7 +82,7 @@ We can also use the "STATE" variable to calculate rates for each state. You can 
 
 ###Part 3: Sampling###
 
-***Question 9 (3 points)*** _Preliminary data from a state health survey showed a food insecurity rate of 19%. Using the distribution of state food insecurity rates as a reference, what is the percentile rank of this value? You will need to calculate the mean and standard deviation of the existing state rates to answer this question. Use the scripts/lectures on probability distributions as a reference._
+***Question 9 (3 points)*** _Preliminary data from a state health survey showed a food insecurity rate of 19%. Using the distribution of state food insecurity rates as a reference, what is the percentile rank of this value? You will need to calculate the mean and standard deviation of the existing state rates to answer this question, assuming this distribution is normal. Use the scripts/lectures on probability distributions as a reference._
 
 ```{r}
 #Code goes here
