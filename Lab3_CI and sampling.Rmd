@@ -86,7 +86,7 @@ The lab data folder includes two additional files:
 * A polygon layer of census tracts in the core Atlanta metro along with their population: atl_tracts.gpkg
 * A point layer of park spaces listed on OpenStreetMap: atl_osm_parks
 
-Using the techniques discussed in the scripts on spatial operations and raster analysis, map out the census tracts and/or parks located in areas with the lowest proximity (highest values on the raster) to supermarkets. Make sure your map(s) is visible in the output and clearly show the tracts/parks where new food options could be improve the proximity of healthy foods. Provide an interpretation of your maps that explains what patterns they show.
+Using the techniques discussed in the scripts on spatial operations and raster analysis, map out the census tracts and/or parks located in areas with the lowest proximity (highest values on the raster) to supermarkets. Make sure your map(s) is visible in the output and clearly show the tracts/parks where new food options could be improve the proximity of healthy foods. Provide an interpretation of your map(s) that explains what patterns they show.
 
 ```{r}
 #Code goes here
