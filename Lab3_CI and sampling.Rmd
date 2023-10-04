@@ -1,11 +1,15 @@
 ---
-title: 'Geog 4/6300: Lab 4'
+title: 'Geog 4/6300: Lab 3'
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(raster)
+library(sf)
+library(tmap)
+library(terra)
 ```
 
 ## Confidence intervals and sampling
@@ -14,7 +18,66 @@ library(tidyverse)
 
 **Overview:**
 
-In this lab, we will be calculating estimated food insecurity at state level. We will be using individual level “microdata” from the Current Population Survey (CPS). It is designed as an ongoing (collected monthly) set of data on financial and demographic characteristics. One main use of the CPS is to calculate national levels of food insecurity. Each December, a food security supplement is added to the regular survey, and data from the supplement is included here.
+###Part 1: Identifying parks for community gardens in Atlanta
+In the first part of this lab, you will be identifying parks in census tracts with low proximity to supermarkets in the core Atlanta metro. To do so, you will be working from a raster showing supermarket proximity to identify tracts and parks that could be the best sites for new community garden spaces.
+
+The lab data folder includes two files:
+* `atl_snapsupers_proxmity.tif`: A geotiff raster showing distance (in unspecified units) to SNAP-authorized supermarkets in the Atlanta metro.
+* `atl_tracts.gpkg`: A polygon layer of census tracts in the core Atlanta metro along with their population.
+* `atl_osm_parks.gpkg` A point layer of park spaces listed on OpenStreetMap.
+
+Load these files into your working environment using the commands shown below.
+
+```{r}
+#Code goes here
+prox<-raster("data/atl_snapsupers_proximity.tif")
+tct<-st_read("data/atl_tracts.gpkg")
+park<-st_read("data/atl_osm_parks.gpkg") 
+```
+
+**Question 1** _Plot out the proximity raster._
+
+```{r}
+#Code goes here
+```
+
+**Question 2** _Calculate the mean value of this proximity raster for each census tract using the `zonal` function from the terra package. You will need to use `rast` and `vect` to transform the raster and vector data to a suitable format. Bind those values to the tract dataset using cbind. Then create a choropleth map of the mean distance values for tracts using tmap. Write a short summary of the spatial pattern you see._
+
+```{r}
+#Code goes here
+```
+
+{Your response goes here}
+
+**Question 3** _We want to identify tracts that are in the top 25% of supermarket distance AND the top 25% for total population (the totalpop variable). Use the `summary` function to identify these values--you'll want the "3rd Qu." numbers. Then filter the tract dataset to only those tracts that meet both of these criteria. Lastly, create a map that shows only those filtered tracts using tmap. For an optional extra challenge, add a separate layer to the map showing all tract boundaries using `tm_boundaries` rather than `tm_polygons`. You'll have all tract boundaries, but only the tracts you selected will be filled with color._
+
+```{r}
+#Code goes here
+```
+
+**Question 4** _Now we want to see the proximity of each park. Use the `extract` function to do extract the value of the proximity raster for each park point. Then use `st_join` to do a spatial join the attributes of the filtered tract data from Question 3. Keep only those parks that matched one of those filtered tracts, filtering by tract GEOID or a similar field. Call the head of the new dataset using kable when you are done._
+
+```{r}
+#Code goes here
+```
+
+**Question 5** _Identify the park with the lowest accessibility in each tract. Use group_by and filter to identify tracts with the highest distance within each tract.Map the resulting filtered tracts and parks using tmap._
+
+```{r}
+#Code goes here
+```
+
+**Question 6** _Call the head of the filtered parks table using kable. In a few sentences, explain the criteria used to select these park sites for new community gardens, as if writing to local residents._
+
+```{r}
+#Code goes here
+```
+
+{Your response goes here}
+
+###Part 2: Confidence intervals
+
+In this section, we will be calculating estimated food insecurity at state level. We will be using individual level “microdata” from the Current Population Survey (CPS). It is designed as an ongoing (collected monthly) set of data on financial and demographic characteristics. One main use of the CPS is to calculate national levels of food insecurity. Each December, a food security supplement is added to the regular survey, and data from the supplement is included here.
 
 To load these data, load the csv file, which is included in the lab folder:
 
@@ -24,74 +87,39 @@ cps_data<-read_csv("data/IPUMS_CPS_FoodSec.csv")
 
 This contains a csv file with microdata from the CPS that is de-identified and publically available through the Minnesota Population Center (https://cps.ipums.org/cps/index.shtml). There is also a codebook that is part of the Github repo (IPUMS_CPS_CODEBOOK.pdf) describing each of those variables.
 
-###Part 1: Calculating national food insecurity###
 For this lab, you will be using the FSSTATUS variable, which describes the food security of respondents. While food security status is often grouped into “low” and “very low” food security, these two are often just combined to a single measure: food insecure. The codebook (see the link above) lists the values assocated with missing or "Not in universe" (NIU) records. For the purposes of this lab, an additional column called FSSTATUS_cat has been added with text versions of the FSSTATUS classification: food_secure, low_fs, and "verylow_fs".
 
-**Question 1** _Filter out all records in this dataset that have missing or NIU observations for food insecurity. Then use group_by and summarise to calculate the number of individuals grouped in each food security category (FSSTATUS).  Call this table using kable. Based on these results, calculate the estimated national food insecurity rate (those rated 2 and 3)._
+**Question 7** _Create an estimated food insecurity rate for each state. To do so, you should first ilter out all records in this dataset that have missing or NIU observations for food insecurity (FSSTATUS_cat). You'll also need to create counts for each response (food secure, low food security, very low food insecurity), and transform the data so all three are spread out in wide format. You can then sum the latter two variables and divide by the total responses within each state. Call the head of your table when done using kable._
+
+```{r}
+#Code goes here.
+```
+
+**Question 8** _Calculate the error term (the standard error * the z score for 95% confidence) for each state. Call the head of your table when done._
 
 ```{r}
 #Code goes here
 ```
 
-**Question 2** _Using the formula for confidence intervals for proportions shown in class, calculate a confidence interval for the rate you identified in question 1. Make sure that confidence interval is shown in the knitted document you create. Interpret what that confidence interval tells you._
+**Question 9** _Create a graph of the confidence intervals from question 4 using ggplot, geom_line (for the CI range), and geom_point (for the estimated mean) as shown in class. Arrange the states along the y axis based on the estimated food insecurity rate. See the code shared in class lectures for a template to work from. (Bonus challenge: use one of the options for geom_theme to change the look of this graph. Google it or look at the documentation for more information.)_
 
 ```{r}
-#Code goes here. 
+#Code goes here
+```
+
+**Question 10** _Compare the margin of error (error term) you calculated for Georgia to the national margin of error. How do they differ? Mathematically, why are they different?_
+
+{Explanation goes here.}
+
+**Lab extension**
+
+A geojson file of state boundaries is included in this lab repo. Using the state rate estimates you created for question 3, create a map that shows these rates. You'll have to join your estimates to the state boundaries before you visualize them. Describe any spatial patterns that you see.
+
+```{r}
+#Code goes here
 ```
 
 {Interpretation goes here.}
 
-### Part 2: Analyzing state food insecurity data
-
-We can also use the "STATE" variable to calculate rates for each state. You can adapt the code from question 1 above to include STATE as a second grouping varirable. 
-
-**Question 3\** _Create an estimated food insecurity rate for each state from these data. To do so, you'll need to create counts for each response (food secure, low food security, very low food insecurity), and transform the data so all three are spread out in wide format. You can then sum the latter two variables and divide by the total responses within each state. Call the head of your table when done using kable._
-
-```{r}
-#Code goes here.
-```
-
-
-**Question 4** _Calculate the error term (the standard error * the z score for 95% confidence) for each state. Call the head of your table when done._
-
-```{r}
-#Code goes here
-```
-
-**Question 5** _Explain the purpose of each function you used in question 4._
-
-{Explanation goes here}
-
-**Question 6** _Create a graph of the confidence intervals from question 4 using ggplot, geom_line (for the CI range), and geom_point (for the estimated mean) as shown in class. Arrange the states along the y axis based on the estimated food insecurity rate. See the code shared in class lectures for a template to work from. (Bonus challenge: use one of the options for geom_theme to change the look of this graph. Google it or look at the documentation for more information.)_
-
-```{r}
-#Code goes here
-```
-
-**Question 7** _Compare the margin of error (error term) you calculated for Georgia to the national margin of error. How do they differ? Mathematically, why are they different?_
-
-{Explanation goes here.}
-
-**Question 8** _Create a column in your state food insecurity estimates that converts each state's food insecurity rate to a z score based on all 50 states' rates. What is the z score for New Jersey? What does that z score tell you?_
-
-```{r}
-#Code goes here.
-```
-
-{Explanation goes here.}
-
-**Bonus challenge**
-The lab data folder includes two additional files:
-* A geotiff raster showing proximity (in unspecified units) to SNAP-authorized supermarkets in the Atlanta metro: atl_snapsupers_proxmity.tig
-* A polygon layer of census tracts in the core Atlanta metro along with their population: atl_tracts.gpkg
-* A point layer of park spaces listed on OpenStreetMap: atl_osm_parks
-
-Using the techniques discussed in the scripts on spatial operations and raster analysis, map out the census tracts and/or parks located in areas with the lowest proximity (highest values on the raster) to supermarkets. Make sure your map(s) is visible in the output and clearly show the tracts/parks where new food options could be improve the proximity of healthy foods. Provide an interpretation of your map(s) that explains what patterns they show.
-
-```{r}
-#Code goes here
-```
-
-(Your interpretation here)
 
 **Lab reflection:** _How do you feel about the work you did on this lab? Was it easy, moderate, or hard? What were the biggest things you learned by completing it?_
